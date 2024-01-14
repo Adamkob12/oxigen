@@ -6,6 +6,7 @@ pub(crate) mod system_set;
 use crate::prelude::{unsafe_world_cell::UnsafeWorldCell, *};
 use bevy_utils::all_tuples;
 pub use func_system::*;
+pub use schedule::*;
 pub use system_param::SystemParam;
 pub use system_set::*;
 
