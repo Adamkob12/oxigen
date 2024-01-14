@@ -29,6 +29,7 @@ pub struct World {
     systems: HashMap<usize, Vec<BoxedSystem>>,
     schedule_labels: Vec<usize>,
     entites: HashSet<Entity>,
+    ran_once: bool,
 }
 
 impl World {
@@ -272,12 +273,7 @@ impl World {
         }
     }
 
-    pub fn run<F>(&mut self, stop_condition: Option<F>)
-    where
-        F: Fn(&World) -> bool,
-    {
-        self.schedule_labels.sort();
-        self.run_startup_labels();
+    pub fn run_update_labels(&mut self) {
         let update_labels = self
             .schedule_labels
             .iter()
@@ -285,17 +281,17 @@ impl World {
             .filter(|l| *l >= SCHEDULE_MAX_PLACE)
             .collect::<Vec<_>>();
 
-        loop {
-            for update_label in &update_labels {
-                self.run_schedule_value(*update_label);
-            }
-
-            if let Some(stop_condition) = &stop_condition {
-                if stop_condition(self) {
-                    break;
-                }
-            }
+        for update_label in update_labels {
+            self.run_schedule_value(update_label);
         }
+    }
+
+    pub fn update(&mut self) {
+        if !self.ran_once {
+            self.run_startup_labels();
+            self.ran_once = true;
+        }
+        self.run_update_labels();
     }
 }
 
@@ -307,6 +303,7 @@ impl Default for World {
             systems: HashMap::new(),
             schedule_labels: Vec::new(),
             entites: HashSet::new(),
+            ran_once: false,
         }
     }
 }

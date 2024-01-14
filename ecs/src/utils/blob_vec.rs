@@ -17,6 +17,7 @@ use bevy_utils::OnDrop;
 /// Used to densely store homogeneous ECS data. A blob is usually just an arbitrary block of contiguous memory without any identity, and
 /// could be used to represent any arbitrary data (i.e. string, arrays, etc). This type is an extendable and re-allocatable blob, which makes
 /// it a blobby Vec, a `BlobVec`.
+#[derive(Clone)]
 pub(crate) struct BlobVec {
     item_layout: Layout,
     capacity: usize,

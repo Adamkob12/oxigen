@@ -1,13 +1,15 @@
 mod plugin;
+mod runner;
 
 use ecs::prelude::{IntoSystemSet, Resource, ScheduleLabel, World};
 pub use plugin::*;
+use runner::Runner;
 use std::collections::HashSet;
 
 pub struct App {
     plugins: HashSet<PluginName>,
     world: World,
-    stop_condition: &'static dyn Fn(&World) -> bool,
+    runner: Box<dyn Runner>,
 }
 
 impl App {
@@ -15,8 +17,21 @@ impl App {
         Self {
             plugins: HashSet::new(),
             world: World::new(),
-            stop_condition: &|_| false,
+            runner: Box::new(runner::simple_runner()),
         }
+    }
+
+    pub fn with_runner(mut self, runner: impl Runner) -> Self {
+        self.runner = Box::new(runner);
+        self
+    }
+
+    pub fn with_stop_condition(
+        mut self,
+        stop_condition: impl Fn(&World) -> bool + 'static,
+    ) -> Self {
+        self.runner = runner::simple_runner_with_stop_condition(stop_condition);
+        self
     }
 
     pub fn add_plugin(&mut self, plugin: impl Plugin) -> &mut Self {
@@ -47,16 +62,9 @@ impl App {
         self
     }
 
-    pub fn set_stop_condition(
-        &mut self,
-        stop_condition: &'static dyn Fn(&World) -> bool,
-    ) -> &mut Self {
-        self.stop_condition = stop_condition;
-        self
-    }
-
-    pub fn run(&mut self) {
-        self.world.run(Some(self.stop_condition))
+    /// Runs and returns the [`World`] in the state after the run.
+    pub fn run(self) -> World {
+        (self.runner)(self.world)
     }
 
     pub fn world(&mut self) -> &mut World {

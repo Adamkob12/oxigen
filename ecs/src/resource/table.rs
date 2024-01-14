@@ -18,6 +18,7 @@ pub type ResQueryResult<'r, R> = Result<Res<'r, R>, ResQueryError>;
 pub type ResMutQueryResult<'r, R> = Result<ResMut<'r, R>, ResQueryError>;
 
 /// This table maps a [`ResourceId`] to a refrence counted smart pointer to it.
+#[derive(Clone)]
 pub(crate) struct ResTable {
     map: HashMap<ResourceId, Arc<RwLock<dyn Resource>>>,
     err_when_poisoned: bool,

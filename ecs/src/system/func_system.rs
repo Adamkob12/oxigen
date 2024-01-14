@@ -18,6 +18,7 @@ pub trait IntoSystem<Marker>: Sized {
     fn into_system(this: Self) -> Self::System;
 }
 
+#[derive(Clone)]
 pub struct FunctionSystemStruct<Marker, F>
 where
     F: SystemParamFunction<Marker>,

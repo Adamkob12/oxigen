@@ -4,6 +4,7 @@ use hashbrown::HashMap;
 
 use super::{Component, ComponentDesc};
 
+#[derive(Clone)]
 pub struct ComponentStorage {
     /// The pure data that holds the components.
     data: BlobVec,
