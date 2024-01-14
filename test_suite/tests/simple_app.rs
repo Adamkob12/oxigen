@@ -26,7 +26,8 @@ fn increment_counter_every_n_secs(mut counter: ResMut<Counter>, mut timer: ResMu
 
 #[test]
 fn counter_test() {
-    let mut app = App::new().with_stop_condition(stop_when_counter_is::<10>);
+    const N: usize = 1;
+    let mut app = App::new().with_stop_condition(stop_when_counter_is::<N>);
     app.add_systems(Update, (increment_counter_every_n_secs,));
     app.insert_resource(Counter(0))
         .insert_resource(Timer(Instant::now()));
@@ -34,5 +35,5 @@ fn counter_test() {
     let world_after_run = app.run();
 
     let counter = world_after_run.get_resource::<Counter>().unwrap();
-    assert_eq!(counter.0, 10);
+    assert_eq!(counter.0, N);
 }

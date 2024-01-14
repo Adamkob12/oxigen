@@ -6,3 +6,5 @@ edition = "2021"
 [dependencies]
 ecs = { path = "../ecs" }
 app = { path = "../app" }
+winit = {path = "../winit"}
+input = {path = "../input"}

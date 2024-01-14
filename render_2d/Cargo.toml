@@ -1,12 +1,9 @@
 [package]
-name = "winit"
+name = "render_2d"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-winit = "0.29"
+pixels = "0.13"
 ecs = { path = "../ecs" }
 app = { path = "../app" }
-env_logger = "0.10"
-winit_input_helper = "0.15"
-input = { path = "../input" }

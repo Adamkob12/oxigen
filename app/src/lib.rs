@@ -26,6 +26,11 @@ impl App {
         self
     }
 
+    pub fn set_runner(&mut self, runner: impl Runner) {
+        let runner = Box::new(runner);
+        self.runner = runner;
+    }
+
     pub fn with_stop_condition(
         mut self,
         stop_condition: impl Fn(&World) -> bool + 'static,
