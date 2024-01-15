@@ -30,18 +30,21 @@ impl SurfaceBuffer {
             let (l_x, t_y) = tl;
             let (r_x, b_y) = br;
 
-            println!("{} {}", l_x, t_y);
-            println!("{} {}", r_x, b_y);
-
             let src = to_draw.drawable.buffer().as_flat_samples().samples;
             let buff = self.pixels.frame_mut();
+            println!("\n");
+            println!("\n");
+            println!("\n");
             for y in t_y..b_y {
                 let row_start = y * self.width + l_x;
-                let row_end = row_start + (r_x - l_x) * 4;
-                // Take into account 4 bytes per pixel
-                let e_row_start = y - t_y;
-                // Take into account 4 bytes per pixel
-                let e_row_end = e_row_start + (r_x - l_x) * 4;
+                let row_end = row_start + (r_x - l_x);
+                let e_row_start = (y - t_y) * e_w;
+                let e_row_end = e_row_start + (r_x - l_x);
+                // Take into account everything is 4x (4 bytes per pixel).
+                let row_start = row_start * 4;
+                let row_end = row_end * 4;
+                let e_row_start = e_row_start * 4;
+                let e_row_end = e_row_end * 4;
                 buff[row_start..row_end].copy_from_slice(&src[e_row_start..e_row_end]);
             }
         }

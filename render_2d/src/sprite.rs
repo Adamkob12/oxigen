@@ -1,4 +1,5 @@
-use std::{path::Path, sync::Arc};
+use core::fmt;
+use std::{fmt::Formatter, path::Path, sync::Arc};
 
 use crate::rendering_pipeline::ToDraw;
 
@@ -26,6 +27,19 @@ impl Sprite {
             height: img.height(),
             pixels: img,
         })
+    }
+}
+
+impl fmt::Debug for Sprite {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> fmt::Result {
+        dbg!(&self
+            .pixels
+            .as_flat_samples()
+            .samples
+            .chunks_exact(4)
+            .collect::<Vec<&[u8]>>()
+            .as_slice());
+        Ok(())
     }
 }
 

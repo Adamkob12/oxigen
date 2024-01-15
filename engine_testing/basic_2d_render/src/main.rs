@@ -27,9 +27,11 @@ fn spawn_stars(world: &mut World, sprites: Res<Sprites>, input: Res<Keyboard>) {
     if input.pressed(KeyCode::Space) {
         println!("Spawing Star!");
         let sprite_handle = Arc::clone(sprites.0.get("Star").unwrap());
+        let swz = rand::random::<f32>() * 500.0;
+        let swz2 = rand::random::<f32>() * 500.0;
         world.spawn(
             SpriteBundle::from_sprite(sprite_handle).with_transform(Transform {
-                position: Vec3::new(100.0, 100.0, 0.0),
+                position: Vec3::new(swz, swz2, 0.0),
             }),
         );
     }

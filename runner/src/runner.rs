@@ -5,8 +5,8 @@ use render_2d::prelude::*;
 use winit::{dpi::LogicalSize, event::Event, event_loop::EventLoop, window::WindowBuilder};
 use winit_input_helper::WinitInputHelper;
 
-const LWIDTH: u32 = 1080;
-const LHEIGHT: u32 = 720;
+const LWIDTH: u32 = 500;
+const LHEIGHT: u32 = 500;
 
 pub(crate) fn winit_runner(mut world: World) -> World {
     println!("Winit Runner!");
