@@ -9,6 +9,6 @@ fn print_when_press(input: Res<Keyboard>) {
 fn main() {
     let mut app = App::new();
     app.add_plugin(oxigen::DefaultPlugins);
-    app.add_systems(Update, (print_when_press,));
+    app.add_systems(Update, print_when_press);
     app.run();
 }
