@@ -9,5 +9,5 @@ members = [
   "oxigen",
   "render_2d",
   "test_suite",
-  "runner",
+  "runner", "engine_testing/basic_2d_render",
 ]

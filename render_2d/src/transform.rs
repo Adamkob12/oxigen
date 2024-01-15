@@ -1,4 +1,4 @@
-use bevy_math::Vec3;
+pub use bevy_math::Vec3;
 use ecs::prelude::*;
 
 #[derive(Component, Default, Clone, Copy)]

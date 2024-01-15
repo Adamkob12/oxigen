@@ -24,11 +24,14 @@ impl SurfaceBuffer {
         if let Ok(tl /* top left */) =
             self.window_pos_to_pixel(to_draw.transform.position.xy().into())
         {
-            let e_w = to_draw.drawable.width(); // Entity width
-            let e_h = to_draw.drawable.height(); // Entity height
+            let e_w = to_draw.drawable.width() as usize; // Entity width
+            let e_h = to_draw.drawable.height() as usize; // Entity height
             let br = ((tl.0 + e_w).min(self.width), (tl.1 + e_h).min(self.height));
             let (l_x, t_y) = tl;
             let (r_x, b_y) = br;
+
+            println!("{} {}", l_x, t_y);
+            println!("{} {}", r_x, b_y);
 
             let src = to_draw.drawable.buffer().as_flat_samples().samples;
             let buff = self.pixels.frame_mut();
@@ -63,5 +66,5 @@ impl std::ops::Deref for SurfaceBuffer {
 pub struct Render;
 
 impl ScheduleLabel for Render {
-    const PLACE: usize = 950;
+    const PLACE: usize = 99;
 }

@@ -2,7 +2,7 @@ use app::WorldPlugin;
 use ecs::prelude::World;
 use input::{InputWorldPlugin, Ssnn};
 use render_2d::prelude::*;
-use winit::{dpi::LogicalSize, event_loop::EventLoop, window::WindowBuilder};
+use winit::{dpi::LogicalSize, event::Event, event_loop::EventLoop, window::WindowBuilder};
 use winit_input_helper::WinitInputHelper;
 
 const LWIDTH: u32 = 1080;
@@ -26,7 +26,6 @@ pub(crate) fn winit_runner(mut world: World) -> World {
             .unwrap()
     };
 
-    world.run_startup_labels();
     // The app will never read from the pointer while its being mutated.
     InputWorldPlugin::from_input(ssnn).build(&mut world);
     // Init the world plugin before the event loop starts.
@@ -34,12 +33,21 @@ pub(crate) fn winit_runner(mut world: World) -> World {
     // We can't move world into the event loop because it will take owndership of it.
     // So we pass an exclusive reference to the event loop.
     println!("Starting event loop!");
-    let _ = event_loop.run(move |event, _, _elwt| {
+    let _ = event_loop.run(move |event, _, control_flow| {
+        if let Event::RedrawRequested(_) = event {
+            world.run_schedule::<Render>();
+            if let Err(err) = world.get_resource::<SurfaceBuffer>().unwrap().render() {
+                control_flow.set_exit();
+                log::error!("Error rendering: {}", err);
+            }
+        }
+
         if !input.update(&event) {
             return;
         } // Wait untill the next update.
 
         world.update();
+        window.request_redraw();
     });
 
     #[allow(unreachable_code)]

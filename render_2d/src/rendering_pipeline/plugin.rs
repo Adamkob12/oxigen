@@ -1,4 +1,4 @@
-use super::{draw::draw_all_entities, Render, SurfaceBuffer};
+use super::{draw::draw_entites_to_draw, Render, SurfaceBuffer};
 use app::*;
 use pixels::{Pixels, SurfaceTexture};
 use winit::window::Window;
@@ -34,5 +34,5 @@ impl WorldPlugin for Render2dPlugin {
 
 #[allow(non_snake_case)]
 pub fn Render2dPipelinePlugin(app: &mut App) {
-    app.add_systems(Render, (draw_all_entities,));
+    app.add_systems(Render, draw_entites_to_draw);
 }

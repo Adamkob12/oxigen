@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::{path::Path, sync::Arc};
 
 use crate::rendering_pipeline::ToDraw;
 
@@ -8,9 +8,25 @@ use image::RgbaImage;
 
 #[derive(Component)]
 pub struct Sprite {
-    pub(crate) width: usize,
-    pub(crate) height: usize,
+    pub(crate) width: u32,
+    pub(crate) height: u32,
     pub(crate) pixels: RgbaImage,
+}
+
+impl Sprite {
+    pub fn load<P: AsRef<Path>>(path: P) -> Option<Self> {
+        let img = image::io::Reader::open(path)
+            .ok()?
+            .decode()
+            .ok()?
+            .into_rgba8();
+
+        Some(Sprite {
+            width: img.width(),
+            height: img.height(),
+            pixels: img,
+        })
+    }
 }
 
 pub struct SpriteBundle {

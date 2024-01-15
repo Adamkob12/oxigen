@@ -3,17 +3,17 @@ use image::RgbaImage;
 use crate::prelude::Sprite;
 
 pub trait Drawable {
-    fn width(&self) -> usize;
-    fn height(&self) -> usize;
+    fn width(&self) -> u32;
+    fn height(&self) -> u32;
     fn buffer(&self) -> &RgbaImage;
 }
 
 impl Drawable for Sprite {
-    fn width(&self) -> usize {
+    fn width(&self) -> u32 {
         self.width
     }
 
-    fn height(&self) -> usize {
+    fn height(&self) -> u32 {
         self.height
     }
 

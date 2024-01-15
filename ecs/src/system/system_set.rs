@@ -42,4 +42,15 @@ macro_rules! impl_into_sys_set {
     };
 }
 
-all_tuples!(impl_into_sys_set, 0, 15, S, M, T);
+all_tuples!(impl_into_sys_set, 2, 15, S, M, T);
+
+impl<I, M, S: System + 'static> IntoSystemSet<(M,)> for I
+where
+    I: IntoSystem<M, System = S>,
+{
+    type SysSet = Box<S>;
+
+    fn into_system_set(self) -> Self::SysSet {
+        Box::new(IntoSystem::into_system(self))
+    }
+}

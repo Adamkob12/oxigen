@@ -1,6 +1,7 @@
 use app::App;
 
 pub mod prelude {
+    pub use super::DefaultPlugins;
     pub use app::*;
     pub use ecs::prelude::*;
     pub use input::*;

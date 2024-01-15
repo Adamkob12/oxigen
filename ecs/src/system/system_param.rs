@@ -49,7 +49,7 @@ unsafe impl<R: Resource> SystemParam for ResMut<'_, R> {
     type Item<'a> = ResMut<'a, R>;
 
     unsafe fn fetch_from_world(world: UnsafeWorldCell<'_>) -> Self::Item<'_> {
-        world.get_resource_mut::<R>().unwrap()
+        world.get_resource_mut::<R>().expect(type_name::<R>())
     }
 
     fn access_table() -> AccessTable {

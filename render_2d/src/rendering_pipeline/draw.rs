@@ -3,7 +3,7 @@ use std::cmp::Ordering;
 use super::{SurfaceBuffer, ToDraw};
 use ecs::prelude::*;
 
-pub fn draw_all_entities(
+pub fn draw_entites_to_draw(
     drawable_entities: Query<&ToDraw>,
     mut surface_buffer: ResMut<SurfaceBuffer>,
 ) {
@@ -16,6 +16,7 @@ pub fn draw_all_entities(
             .unwrap_or(Ordering::Equal)
     });
     for drawable in drawables {
+        // println!("Drawing entity");
         surface_buffer.draw_entity(drawable);
     }
 }

@@ -31,7 +31,7 @@ fn increment_counter_every_n_secs(mut counter: ResMut<Counter>, mut timer: ResMu
 fn counter_test() {
     const N: usize = 2;
     let mut app = App::new().with_stop_condition(stop_when_counter_is::<N>);
-    app.add_systems(Update, (increment_counter_every_n_secs,));
+    app.add_systems(Update, increment_counter_every_n_secs);
     app.insert_resource(Counter(0))
         .insert_resource(Timer(Instant::now()));
 
