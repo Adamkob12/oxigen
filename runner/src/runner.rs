@@ -1,22 +1,23 @@
 use app::WorldPlugin;
 use ecs::prelude::World;
-use input::{InputWorldPlugin, SSNN};
+use input::{InputWorldPlugin, Ssnn};
+use render_2d::prelude::*;
 use winit::{dpi::LogicalSize, event_loop::EventLoop, window::WindowBuilder};
 use winit_input_helper::WinitInputHelper;
 
-const WINDOW_WIDTH: u32 = 1080;
-const WINDOW_HEIGHT: u32 = 720;
+const LWIDTH: u32 = 1080;
+const LHEIGHT: u32 = 720;
 
 pub(crate) fn winit_runner(mut world: World) -> World {
     println!("Winit Runner!");
     env_logger::init();
-    let event_loop = EventLoop::new().unwrap();
+    let event_loop = EventLoop::new();
     let input = Box::leak::<'static>(Box::new(WinitInputHelper::new()));
     let raw_input = input as *mut WinitInputHelper;
-    let ssnn = SSNN(std::ptr::NonNull::new(raw_input).unwrap());
+    let ssnn = Ssnn(std::ptr::NonNull::new(raw_input).unwrap());
 
-    let _window = {
-        let size = LogicalSize::new(WINDOW_WIDTH, WINDOW_HEIGHT);
+    let window = {
+        let size = LogicalSize::new(LWIDTH, LHEIGHT);
         WindowBuilder::new()
             .with_title("App")
             .with_inner_size(size)
@@ -28,20 +29,19 @@ pub(crate) fn winit_runner(mut world: World) -> World {
     world.run_startup_labels();
     // The app will never read from the pointer while its being mutated.
     InputWorldPlugin::from_input(ssnn).build(&mut world);
-
+    // Init the world plugin before the event loop starts.
+    Render2dPlugin::from_window(&window, LWIDTH as usize, LHEIGHT as usize).build(&mut world);
     // We can't move world into the event loop because it will take owndership of it.
     // So we pass an exclusive reference to the event loop.
-    let world_xref = &mut world;
     println!("Starting event loop!");
-    let _ = event_loop
-        .run(move |event, _elwt| {
-            if !input.update(&event) {
-                return;
-            } // Wait untill the next update.
+    let _ = event_loop.run(move |event, _, _elwt| {
+        if !input.update(&event) {
+            return;
+        } // Wait untill the next update.
 
-            world_xref.update();
-        })
-        .expect("Couldn't execute event loop");
+        world.update();
+    });
 
+    #[allow(unreachable_code)]
     world
 }

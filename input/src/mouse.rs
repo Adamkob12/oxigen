@@ -1,4 +1,4 @@
-use crate::SSNN;
+use crate::Ssnn;
 use ecs::prelude::Resource;
 pub use winit::event::MouseButton;
 pub use winit_input_helper::TextChar;
@@ -6,7 +6,7 @@ use winit_input_helper::WinitInputHelper;
 
 #[derive(Resource)]
 pub struct Mouse {
-    pub(crate) input: SSNN<WinitInputHelper>,
+    pub(crate) input: Ssnn<WinitInputHelper>,
 }
 
 fn mouse_button_as_usize(button: MouseButton) -> usize {
@@ -14,8 +14,6 @@ fn mouse_button_as_usize(button: MouseButton) -> usize {
         MouseButton::Left => 0,
         MouseButton::Right => 1,
         MouseButton::Middle => 2,
-        MouseButton::Back => 4,
-        MouseButton::Forward => 5,
         MouseButton::Other(n) => n as usize,
     }
 }

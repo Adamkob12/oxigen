@@ -15,6 +15,7 @@ pub mod prelude {
     pub use crate::resource::prelude::*;
     pub use crate::system::*;
     pub use crate::world::*;
+    pub use bevy_ptr::{OwningPtr, Ptr};
     pub use derive::*;
     pub(crate) use std::any::{type_name, TypeId};
 }

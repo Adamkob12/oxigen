@@ -1,3 +1,13 @@
 [workspace]
 resolver = "2"
-members = [ "app","derive", "ecs", "engine_testing/test_input", "input", "oxigen", "render_2d", "test_suite", "winit"]
+members = [
+  "app",
+  "derive",
+  "ecs",
+  "engine_testing/test_input",
+  "input",
+  "oxigen",
+  "render_2d",
+  "test_suite",
+  "runner",
+]

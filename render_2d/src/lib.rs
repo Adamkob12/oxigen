@@ -5,6 +5,6 @@ mod transform;
 
 pub mod prelude {
     pub use crate::drawable::Drawable;
-    pub use crate::sprite::Sprite;
+    pub use crate::rendering_pipeline::*;
+    pub use crate::sprite::{Sprite, SpriteBundle};
 }
-

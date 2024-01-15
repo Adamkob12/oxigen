@@ -1,9 +1,11 @@
+use image::RgbaImage;
+
 use crate::prelude::Sprite;
 
 pub trait Drawable {
     fn width(&self) -> usize;
     fn height(&self) -> usize;
-    fn pixels(&self) -> &[u8];
+    fn buffer(&self) -> &RgbaImage;
 }
 
 impl Drawable for Sprite {
@@ -15,7 +17,7 @@ impl Drawable for Sprite {
         self.height
     }
 
-    fn pixels(&self) -> &[u8] {
-        self.pixels.as_slice()
+    fn buffer(&self) -> &RgbaImage {
+        &self.pixels
     }
 }

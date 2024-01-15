@@ -10,18 +10,18 @@ use winit_input_helper::WinitInputHelper;
 
 /// Send & Sync NotNull Pointer.
 #[derive(Copy, Clone)]
-pub struct SSNN<T>(pub NonNull<T>);
+pub struct Ssnn<T>(pub NonNull<T>);
 
-unsafe impl<T: Send> Send for SSNN<T> {}
-unsafe impl<T: Sync> Sync for SSNN<T> {}
+unsafe impl<T: Send> Send for Ssnn<T> {}
+unsafe impl<T: Sync> Sync for Ssnn<T> {}
 
 pub struct InputWorldPlugin {
     // This must be to a static reference on the heap.
-    input: SSNN<WinitInputHelper>,
+    input: Ssnn<WinitInputHelper>,
 }
 
 impl InputWorldPlugin {
-    pub fn from_input(input: SSNN<WinitInputHelper>) -> Self {
+    pub fn from_input(input: Ssnn<WinitInputHelper>) -> Self {
         Self { input }
     }
 }

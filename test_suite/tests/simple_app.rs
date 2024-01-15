@@ -4,6 +4,9 @@ use std::time::Instant;
 #[derive(Resource)]
 struct Counter(usize);
 
+#[derive(Component)]
+struct MyComponent;
+
 #[derive(Resource)]
 struct Timer(Instant);
 
@@ -26,7 +29,7 @@ fn increment_counter_every_n_secs(mut counter: ResMut<Counter>, mut timer: ResMu
 
 #[test]
 fn counter_test() {
-    const N: usize = 1;
+    const N: usize = 2;
     let mut app = App::new().with_stop_condition(stop_when_counter_is::<N>);
     app.add_systems(Update, (increment_counter_every_n_secs,));
     app.insert_resource(Counter(0))

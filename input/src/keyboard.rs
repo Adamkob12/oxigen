@@ -1,12 +1,11 @@
+use crate::Ssnn;
 use ecs::prelude::Resource;
-
-use crate::SSNN;
-pub use winit::keyboard::KeyCode;
+pub use winit::event::VirtualKeyCode as KeyCode;
 use winit_input_helper::WinitInputHelper;
 
 #[derive(Resource)]
 pub struct Keyboard {
-    pub(crate) input: SSNN<WinitInputHelper>,
+    pub(crate) input: Ssnn<WinitInputHelper>,
 }
 
 impl Keyboard {
