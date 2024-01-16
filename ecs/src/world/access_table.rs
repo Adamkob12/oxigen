@@ -28,6 +28,7 @@ impl std::ops::DerefMut for AccessTable {
     }
 }
 
+
 impl AccessTable {
     pub fn is_conflicted(&self) -> bool {
         self.conflict

@@ -17,5 +17,6 @@ pub mod prelude {
     pub use crate::world::*;
     pub use bevy_ptr::{OwningPtr, Ptr};
     pub use derive::*;
+    pub use hashbrown::{HashMap, HashSet};
     pub(crate) use std::any::{type_name, TypeId};
 }
